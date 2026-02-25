@@ -69,7 +69,7 @@
 |----|------|------|------|
 | **main** | Jarvis (Orchestrator) | qwen2.5:0.5b | 智能編排 + 分類 |
 | **chat** | Assistant (信息助手) | qwen2.5:3b | 信息查詢、數據、QA |
-| **coding** | Worker (工作器) | glm-4.7-flash | 代碼、任務執行 |
+| **coding** | Worker (工作器) | glm-4.7 | 代碼、任務執行 |
 | **system-admin** | System Admin | glm-4.7 | 系統管理、監控 |
 
 ### 智能路由
