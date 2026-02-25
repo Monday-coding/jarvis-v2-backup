@@ -68,7 +68,7 @@
 | ID | 名稱 | 模型 | 功能 |
 |----|------|------|------|
 | **main** | Jarvis (Orchestrator) | qwen2.5:0.5b | 智能編排 + 分類 |
-| **chat** | Assistant (信息助手) | qwen2.5:3b | 信息查詢、數據、QA |
+| **chat** | Assistant (信息助手) | glm-4.7-flash | 信息查詢、數據、QA |
 | **coding** | Worker (工作器) | glm-4.7 | 代碼、任務執行 |
 | **system-admin** | System Admin | glm-4.7 | 系統管理、監控 |
 
