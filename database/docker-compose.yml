@@ -1,0 +1,53 @@
+# Docker Compose 配置 - PostgreSQL 數據庫
+
+version: '3.8'
+
+services:
+  # PostgreSQL 數據庫
+  postgres:
+    image: postgres:15-alpine
+    container_name: openclaw-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: openclaw
+      POSTGRES_PASSWORD: openclaw_password_2024
+      POSTGRES_DB: openclaw
+      TZ: Asia/Hong_Kong
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-sql:/docker-entrypoint-initdb.d
+      - ./backups:/var/lib/postgresql/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openclaw"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - openclaw-network
+
+  # pgAdmin - Web 管理界面
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: openclaw-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_SERVER: postgres
+      PGADMIN_DEFAULT_USER: openclaw
+      PGADMIN_DEFAULT_PASSWORD: openclaw_password_2024
+      PGADMIN_DEFAULT_PORT: 5432
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - openclaw-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  openclaw-network:
+    driver: bridge
