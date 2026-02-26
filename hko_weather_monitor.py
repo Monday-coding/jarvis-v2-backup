@@ -25,11 +25,15 @@ class HKOWeatherMonitor:
         self.alert_history = []
 
     def get_current_weather(self) -> Dict[str, Any]:
-        """獲取當前天氣"""
+        """獲取當前天氣（使用公開端點）"""
         try:
-            url = f"{self.base_url}/weatherAPI/opendata/hko-opendata.json"
-            params = urllib.parse.urlencode({"dataType": "HRIT", "lang": "tc"}).encode('utf-8')
-            req = urllib.request.Request(url, data=params, method='GET')
+            # 嘗試使用公開端點（不需要 API Key）
+            url = "https://data.weather.gov.hk/weatherAPI/opendata/hko-opendata.json"
+            params = {
+                "dataType": "HRIT",
+                "lang": "tc"
+            }
+            req = urllib.request.Request(url, data=urllib.parse.urlencode(params).encode('utf-8'), method='GET')
             
             with urllib.request.urlopen(req, timeout=30) as response:
                 return json.loads(response.read())
