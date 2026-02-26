@@ -1,0 +1,16 @@
+[Unit]
+Description=Weather Monitor Service
+After=network.target
+
+[Service]
+Type=simple
+User=jarvis
+WorkingDirectory=/home/jarvis/.openclaw/workspace/notifications
+ExecStart=/usr/bin/python3 monitor_weather.py
+Restart=always
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
