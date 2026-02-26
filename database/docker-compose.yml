@@ -33,10 +33,10 @@ services:
     container_name: openclaw-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_SERVER: postgres
-      PGADMIN_DEFAULT_USER: openclaw
+      PGADMIN_DEFAULT_EMAIL: admin@openclaw.local
       PGADMIN_DEFAULT_PASSWORD: openclaw_password_2024
-      PGADMIN_DEFAULT_PORT: 5432
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     ports:
       - "5050:80"
     depends_on:
