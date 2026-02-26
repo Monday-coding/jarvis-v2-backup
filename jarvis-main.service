@@ -1,0 +1,16 @@
+[Unit]
+Description=Jarvis Main Agent
+After=network.target
+
+[Service]
+Type=simple
+User=jarvis
+WorkingDirectory=/home/jarvis/.openclaw/workspace
+ExecStart=/home/jarvis/.openclaw/venv/bin/python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
