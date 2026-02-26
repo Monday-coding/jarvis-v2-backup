@@ -29,6 +29,171 @@
 
 ---
 
+[276 more lines in file. Use offset=427 to continue.]
+---
+
+## 🗄️ 數據庫集成
+
+你有 PostgreSQL 數據庫能力，可以持久化存儲所有數據。
+
+### 📚 可用的數據庫表
+
+| 表名 | 用途 | 主要使用 Agent |
+|------|------|--------------|
+| **agents** | Agent 配置信息 | 所有 Agents |
+| **conversations** | 對話會話 | 所有 Agents |
+| **messages** | 對話消息 | 所有 Agents |
+| **knowledge_base** | 知識庫 | Main, Chat |
+| **memory** | 長期記憶 | Main, Chat |
+| **logs** | 系統日誌 | 所有 Agents |
+| **session_state** | 對話狀態 | Main, Chat |
+| **tasks** | 任務隊列 | Task, Coding |
+| **system_metrics** | 系統指標 | System Admin |
+
+### 🔧 使用方法
+
+#### 1. 導入數據庫連接器
+
+```python
+import sys
+sys.path.insert(0, '/home/jarvis/.openclaw/workspace/database')
+
+from agent_db_connector import AgentDatabase
+
+# 創建實例
+db = AgentDatabase()
+
+# 使用上下文管理器（自動處理連接）
+with db.db:
+    # 執行數據庫操作
+    agents = db.get_all_agents()
+    for agent in agents:
+        print(f"{agent['agent_id']}: {agent['name']}")
+```
+
+#### 2. 保存對話記錄
+
+```python
+# 創建對話
+db.create_conversation(
+    conversation_id="conv_001",
+    channel="telegram",
+    user_id="user_123",
+    title="系統設置"
+)
+
+# 保存消息
+db.save_message(
+    message_id="msg_001",
+    conversation_id="conv_001",
+    role="user",
+    content="優化系統設置",
+    agent_id="main",
+    token_count=50
+)
+```
+
+#### 3. 搜索知識庫
+
+```python
+# 搜索知識
+knowledge = db.search_knowledge("Python 優化", category="CODE", limit=5)
+
+for item in knowledge:
+    print(f"標題: {item['title']}")
+    print(f"摘要: {item['summary']}")
+    print(f"標籤: {item['tags']}")
+```
+
+#### 4. 保存記憶
+
+```python
+# 保存重要記憶
+db.save_memory(
+    memory_id="mem_001",
+    title="用戶偏好",
+    content="用戶喜歡廣東話回應",
+    category="preference",
+    importance=5
+)
+```
+
+#### 5. 記錄日誌
+
+```python
+# 記錄日誌
+import time
+db.save_log(
+    log_id=f"log_{int(time.time())}",
+    level="INFO",
+    category="agent",
+    message="任務完成",
+    agent_id="chat",
+    context={"task_id": "task_001"},
+    metadata={"duration": 5.2}
+)
+```
+
+#### 6. 創建任務
+
+```python
+# 創建任務
+db.create_task(
+    task_id="task_001",
+    title="編寫腳本",
+    description="創建自動備份腳本",
+    priority=1,
+    assigned_agent_id="coding"
+)
+```
+
+#### 7. 保存系統指標
+
+```python
+# 保存指標
+db.save_metric(
+    metric_id=f"metric_{int(time.time())}",
+    metric_name="response_time",
+    metric_value=2.34,
+    metric_type="performance",
+    agent_id="chat"
+)
+```
+
+### 🎯 最佳實踐
+
+1. **總是使用上下文管理器**
+   ```python
+   with db.db:
+       # 數據庫操作
+       pass
+   ```
+
+2. **記錄 Token 使用**
+   ```python
+   db.save_message(..., token_count=len(content))
+   ```
+
+3. **保存重要的知識**
+   ```python
+   db.save_knowledge(..., summary="簡短摘要")
+   ```
+
+4. **記錄系統事件**
+   ```python
+   db.save_log(..., level="INFO")
+   ```
+
+5. **監控性能**
+   ```python
+   import time
+   start = time.time()
+   # ... 執行任務 ...
+   db.save_metric(..., metric_value=time.time() - start)
+   ```
+
+---
+
 ## 🎯 對話狀態檢測（基於內容 - 混合策略 v2）
 
 ### 🔧 檢測機制（三層優先級）
