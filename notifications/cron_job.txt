@@ -1,0 +1,1 @@
+*/5 * * * * /usr/bin/python3 /home/jarvis/.openclaw/workspace/notifications/cron_weather_monitor.py >> /home/jarvis/.openclaw/workspace/notifications/monitor.log 2>&1
