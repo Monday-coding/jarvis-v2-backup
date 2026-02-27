@@ -1,0 +1,3 @@
+CONTAINER ID   IMAGE                   COMMAND                  CREATED        STATUS                         PORTS                                         NAMES
+c3b640d2b960   dpage/pgadmin4:latest   "/entrypoint.sh"         25 hours ago   Restarting (1) 7 seconds ago                                                 openclaw-pgadmin
+362e66281d04   postgres:15-alpine      "docker-entrypoint.s…"   25 hours ago   Up 25 hours (healthy)          0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   openclaw-postgres
